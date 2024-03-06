@@ -32,7 +32,7 @@ class ProductManager {
       !code ||
       stock === undefined
     ) {
-      console.error("All fields must be mandatory, please complete");
+      throw new Error("usuario invalido");
       return;
     }
 

@@ -25,5 +25,5 @@
 {"title":"Laptop","description":"Una laptop de última generación","price":1000,"thumbnail":"laptop.jpg","code":"LAP-001","stock":10,"id":25}
 {"title":"Iphone","description":"Un teléfono de Apple","price":2000,"thumbnail":"iphone.jpg","code":"IPH-001","stock":25,"id":26}
 {"title":"Laptop","description":"Una laptop de última generación","price":1000,"thumbnail":"laptop.jpg","code":"LAP-001","stock":10,"id":27}
-{"title":"Iphone","description":"Un teléfono de Apple","price":2000,"thumbnail":"iphone.jpg","code":"IPH-001","stock":25,"id":28}
+{"title":"Iphone","description":"Un teléfono de Apple","price":2000,"thumbnail":"https://boulanger.scene7.com/is/image/Boulanger/0194252709177_h_f_l_0?wid=500&hei=500","code":"IPH-001","stock":25,"id":28}
 {"title":"Xbox One","description":"Consola de Nueva generación","price":20000,"thumbnail":"xbox.jpg","code":"XBOX-001","stock":10,"id":29}

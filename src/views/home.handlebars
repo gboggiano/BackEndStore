@@ -1,0 +1,24 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lista de Productos</title>
+  </head>
+  <body>
+    <h1>Aqui iran todos los productos</h1>
+    <h2>Lista de Productos</h2>
+    <section>
+      {{#each products}}
+        <div>
+          <h3>{{title}}</h3>
+          ${{price}}
+          {{description}}
+          <img src={{thumbnail}} alt="img" />
+        </div>
+      {{/each}}
+    </section>
+
+    <script src="/js/landing.js"></script>
+  </body>
+
+</html>

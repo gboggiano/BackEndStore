@@ -1,0 +1,26 @@
+h1 {
+  color: green;
+}
+
+section {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  gap: 10px;
+}
+
+div {
+  width: 25%;
+  height: auto;
+  background-color: lightgrey;
+  padding: 10px;
+}
+
+h3 {
+  color: blueviolet;
+}
+
+img {
+  width: 50%;
+}

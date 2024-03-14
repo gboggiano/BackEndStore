@@ -1,0 +1,58 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lista de Productos</title>
+  </head>
+  <body>
+    <h1>Productos en tiempo real</h1>
+    <h2>Lista de Productos</h2>
+    <section>
+      <form
+        action="/realTimeProducts"
+        id="productForm"
+        method="post"
+        enctype="application/x-www-form-urlencoded"
+      >
+        <input
+          type="text"
+          name="title"
+          placeholder="Título del Producto"
+          required
+        />
+        <input
+          type="text"
+          name="description"
+          placeholder="Descripción"
+          required
+        />
+        <input type="number" name="price" placeholder="Precio" required />
+        <input
+          type="text"
+          name="thumbnail"
+          placeholder="URL de la Imagen"
+          required
+        />
+        <input type="text" name="code" placeholder="Código" required />
+        <input type="number" name="stock" placeholder="Stock" required />
+        <button type="submit">Agregar Producto</button>
+      </form>
+    </section>
+    <section>
+      {{#each products}}
+        <div class="container" id="productsTemplate">
+          <h3>{{title}}</h3>
+          <p> ${{price}}</p>
+          <p>{{description}}</p>
+          <img src={{thumbnail}} alt="img" />
+        </div>
+      {{/each}}
+    </section>
+    {{! Incluir socket.io si es necesario}}
+    {{#if useWS}}
+      <script src="/socket.io/socket.io.js"></script>
+    {{/if}}
+    <script src="/js/landing.js"></script>
+  </body>
+
+</html>

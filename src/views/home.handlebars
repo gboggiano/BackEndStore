@@ -5,19 +5,22 @@
     <title>Lista de Productos</title>
   </head>
   <body>
-    <h1>Aqui iran todos los productos</h1>
-    <h2>Lista de Productos</h2>
+    <h1>LegoWorldLA Store</h1>
+    <h2>Nuestros Productos</h2>
     <section>
       {{#each products}}
-        <div>
+        <div class="container">
           <h3>{{title}}</h3>
-          ${{price}}
-          {{description}}
+          <p> ${{price}}</p>
+          <p>{{description}}</p>
           <img src={{thumbnail}} alt="img" />
         </div>
       {{/each}}
     </section>
-
+    {{! Incluir socket.io si es necesario}}
+    {{!-- {{#if useWS}}
+      <script src="/socket.io/socket.io.js"></script>
+    {{/if}} --}}
     <script src="/js/landing.js"></script>
   </body>
 

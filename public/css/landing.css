@@ -10,7 +10,7 @@ section {
   gap: 10px;
 }
 
-div {
+.container {
   width: 25%;
   height: auto;
   background-color: lightgrey;

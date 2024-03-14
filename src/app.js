@@ -10,7 +10,7 @@ const filename = `${__dirname}/../assets/products.txt`;
 const productmanager = new ProductManager(filename);
 const viewsRouter = require("./routes/views.router");
 const homeRouter = require("./routes/home.router");
-const realTimeProducts = require("./routes/realTimeProducts");
+const realTimeProducts = require("./routes/realTimeProducts.router");
 
 //------handlebars
 app.engine("handlebars", handlebars.engine());

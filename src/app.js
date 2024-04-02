@@ -11,6 +11,8 @@ const productmanager = new ProductManager(filename);
 const viewsRouter = require("./routes/views.router");
 const homeRouter = require("./routes/home.router");
 const realTimeProducts = require("./routes/realTimeProducts.router");
+const productsDBRouter = require("./routes/productsDB.router");
+const mongoose = require("mongoose");
 
 //------handlebars
 app.engine("handlebars", handlebars.engine());
@@ -25,24 +27,41 @@ app.use(express.json());
 //--------------
 
 //---Routes---//
-app.use("/api/products", productsRouter);
+// app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
 //-- routes for handlebars uses -------//
 app.use("/", viewsRouter);
 app.use("/home", homeRouter);
 app.use("/realTimeProducts", realTimeProducts);
+//-- routes for MongoDB-Mongoose uses -------//
+app.use("/api/products", productsDBRouter);
 
-//----------------websocket
-const httpServer = app.listen(8080, () => {
-  console.log("Server app.js up & running");
-});
+// ----- MongoDB Config------ //
 
-//-----------------server websocket
+const main = async () => {
+  await mongoose.connect(
+    "mongodb+srv://alejandro0887:alejandro0887@coderecommerce.wk8owgr.mongodb.net/?retryWrites=true&w=majority&appName=CoderEcommerce",
+    {
+      dbName: "TestEcommerce",
+    }
+  );
 
-const wsServer = new Server(httpServer);
-app.set("ws", wsServer);
+  //----------------------------//
 
-//Cuando el cliente se conecta
-wsServer.on("connection", (clientsocket) => {
-  console.log(`Cliente conectado, ID: ${clientsocket.id}`);
-});
+  //---------websocket ------------/
+  const httpServer = app.listen(8080, () => {
+    console.log("Server app.js up & running");
+  });
+
+  //-----server websocket---------/
+
+  const wsServer = new Server(httpServer);
+  app.set("ws", wsServer);
+
+  //Cuando el cliente se conecta
+  wsServer.on("connection", (clientsocket) => {
+    console.log(`Cliente conectado, ID: ${clientsocket.id}`);
+  });
+};
+
+main();

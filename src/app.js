@@ -12,6 +12,7 @@ const viewsRouter = require("./routes/views.router");
 const homeRouter = require("./routes/home.router");
 const realTimeProducts = require("./routes/realTimeProducts.router");
 const productsDBRouter = require("./routes/productsDB.router");
+const cartsDBRouter = require("./routes/cartsDB.router");
 const mongoose = require("mongoose");
 
 //------handlebars
@@ -26,18 +27,21 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 //--------------
 
-//---Routes---//
+//--------Routes JSON ---//
 // app.use("/api/products", productsRouter);
-app.use("/api/carts", cartsRouter);
-//-- routes for handlebars uses -------//
+// app.use("/api/carts", cartsRouter);
+//-----  MongoDB-Mongoose -------//
+app.use("/api/products", productsDBRouter);
+app.use("/api/carts", cartsDBRouter);
+//--------------------------------------------//
+//------- Routes for handlebars: ----//
+//------- With Mongo  - Atlas -------//
 app.use("/", viewsRouter);
+//--------With FS-----------//
 app.use("/home", homeRouter);
 app.use("/realTimeProducts", realTimeProducts);
-//-- routes for MongoDB-Mongoose uses -------//
-app.use("/api/products", productsDBRouter);
 
 // ----- MongoDB Config------ //
-
 const main = async () => {
   await mongoose.connect(
     "mongodb+srv://alejandro0887:alejandro0887@coderecommerce.wk8owgr.mongodb.net/?retryWrites=true&w=majority&appName=CoderEcommerce",

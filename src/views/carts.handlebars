@@ -1,0 +1,20 @@
+<div>Products in Cart (Cart ID: {{cartId}})</div>
+
+<ul>
+  {{#each cartProducts}}
+    <li>
+      Title:
+      {{this.title}}<br />
+      Description:
+      {{this.description}}<br />
+      Price:
+      {{this.price}}$<br />
+      Code:
+      {{this.code}}<br />
+      Stock:
+      {{this.stock}}<br />
+      Link to image:
+      {{this.thumbnail}}<br />
+    </li>
+  {{/each}}
+</ul>

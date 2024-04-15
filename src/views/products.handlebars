@@ -1,0 +1,48 @@
+<div> products desde Mongo - Via Atlas </div>
+<div>Current Page : {{products.page}}</div>
+
+<ul>
+  {{#each products.docs}}
+    <li>
+      Title:
+      {{title}}
+      <br />
+      Description:
+      {{description}}
+      <br />
+      Price:
+      {{price}}$
+      <br />
+      Code:
+      {{code}}
+      <br />
+      Stock:
+      {{stock}}
+      <br />
+      Link to image:
+      {{thumbnail}}
+      <br />
+
+        <!-- Option 1: Link to a new view with full details -->
+        <h4>Metodo 1</h4>
+      <a href="/products/{{_id}}">View Details</a>
+
+        <h4>Metodo 2</h4>
+      <!-- Option 2: Directly add to cart -->
+      <form action="api/carts/{{cartId}}" method="post">
+        <input type="hidden" name="productId" value="{{_id}}">
+        <input type="number" name="quantity" value="1" min="1">
+        <button type="submit">Add to Cart</button>
+      </form>
+    </li>
+    </li>
+  {{/each}}
+</ul>
+
+{{#if products.hasPrevPage}}
+  <a href="/products?page={{products.prevPage}}"> Previous Page</a>
+{{/if}}
+
+{{#if products.hasNextPage}}
+  <a href="/products?page={{products.nextPage}}"> Next Page</a>
+{{/if}}

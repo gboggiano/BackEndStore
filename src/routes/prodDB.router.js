@@ -54,7 +54,7 @@ router.put("/:id", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const id = req.params.id;
-    const product = await productManager.getByCode(id);
+    const product = await productManager.getById(id);
     if (!product) {
       res.status(404).json({ message: "Producto no encontrado" });
     } else {

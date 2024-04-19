@@ -1,5 +1,6 @@
 const { Router } = require("express");
 const ProductModel = require("../models/products.model");
+const productManager = require("../dao/dbManagers/productManager");
 
 const router = Router();
 
@@ -35,20 +36,24 @@ router.get("/products", async (req, res) => {
   }
 });
 
-module.exports = router;
+/// --- renderizado del metodo 1
 
-// router.get("/products", async (req, res) => {
-//   const page = req.query.page || 1;
-//   const products = await ProductModel.paginate(
-//     {},
-//     { limit: 10, page, lean: true }
-//   );
-//   console.log(products);
-
-//   res.render("products", {
-//     title: "Products",
-//     products,
-//   });
-// });
+router.get("/products/deta/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    console.log(id);
+    const product = await productManager.getById(id);
+    if (!product) {
+      res.status(404).json({ message: "Producto no encontrado" });
+    } else {
+      res.render("products", {
+        title: "Detalles del Producto",
+        products: [product], // Renderiza solo el producto específico
+      });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
 module.exports = router;

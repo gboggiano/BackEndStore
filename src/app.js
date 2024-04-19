@@ -11,11 +11,13 @@ const productmanager = new ProductManager(filename);
 const viewsRouter = require("./routes/views.router");
 const homeRouter = require("./routes/home.router");
 const realTimeProducts = require("./routes/realTimeProducts.router");
-const productsDBRouter = require("./routes/productsDB.router");
+// const productsDBRouter = require("./routes/productsDB.router");
+// const cartsDBRouter = require("./routes/cartsDB.router");
 const cartsDBRouter = require("./routes/cartsDB.router");
 const mongoose = require("mongoose");
 const DbProductManager = require("./dao/dbManagers/productManager");
 const prodDBRouter = require("./routes/prodDB.router");
+const viewsCartsRouter = require("./routes/viewCarts.router");
 
 //------handlebars
 app.engine("handlebars", handlebars.engine());
@@ -40,6 +42,7 @@ app.use("/api/carts", cartsDBRouter);
 //------- Routes for handlebars: ----//
 //------- With Mongo  - Atlas -------//
 app.use("/", viewsRouter);
+app.use("/carts", viewsCartsRouter);
 //--------With FS-----------//
 app.use("/home", homeRouter);
 app.use("/realTimeProducts", realTimeProducts);

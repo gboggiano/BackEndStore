@@ -76,6 +76,16 @@ class ProductManagerdb {
       throw error;
     }
   }
+
+  async getById(productId) {
+    try {
+      const product = await productsModel.findById(productId).lean();
+      return product;
+    } catch (error) {
+      console.error("Error al buscar el producto por ID:", error.message);
+      throw error;
+    }
+  }
 }
 
 module.exports = ProductManagerdb;

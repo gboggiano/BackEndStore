@@ -1,4 +1,4 @@
-const ProductManager = require("./deliveryIIMod");
+const ProductManager = require("./dao/fileManagers/deliveryIIMod");
 const express = require("express");
 const path = require("path");
 const productsRouter = require("./routes/products.router");
@@ -14,6 +14,8 @@ const realTimeProducts = require("./routes/realTimeProducts.router");
 const productsDBRouter = require("./routes/productsDB.router");
 const cartsDBRouter = require("./routes/cartsDB.router");
 const mongoose = require("mongoose");
+const DbProductManager = require("./dao/dbManagers/productManager");
+const prodDBRouter = require("./routes/prodDB.router");
 
 //------handlebars
 app.engine("handlebars", handlebars.engine());
@@ -31,7 +33,8 @@ app.use(express.json());
 // app.use("/api/products", productsRouter);
 // app.use("/api/carts", cartsRouter);
 //-----  MongoDB-Mongoose -------//
-app.use("/api/products", productsDBRouter);
+// app.use("/api/products", productsDBRouter);
+app.use("/api/products", prodDBRouter);
 app.use("/api/carts", cartsDBRouter);
 //--------------------------------------------//
 //------- Routes for handlebars: ----//
@@ -49,6 +52,10 @@ const main = async () => {
       dbName: "TestEcommerce",
     }
   );
+
+  const productManager = new DbProductManager();
+  await productManager.prepare();
+  app.set("productManager", productManager);
 
   //----------------------------//
 

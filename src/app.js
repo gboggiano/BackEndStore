@@ -16,8 +16,13 @@ const realTimeProducts = require("./routes/realTimeProducts.router");
 const cartsDBRouter = require("./routes/cartsDB.router");
 const mongoose = require("mongoose");
 const DbProductManager = require("./dao/dbManagers/productManager");
+const DbUserManager = require("./dao/dbManagers/userManager");
 const prodDBRouter = require("./routes/prodDB.router");
 const viewsCartsRouter = require("./routes/viewCarts.router");
+const userDBRouter = require("./routes/users.router");
+const { dbName, mongoUrl } = require("./dbConfig");
+const sessionMiddleware = require("./session/mongoStorage");
+const sessionDBRouter = require("./routes/session.router");
 
 //------handlebars
 app.engine("handlebars", handlebars.engine());
@@ -29,36 +34,44 @@ app.use(express.static(`${__dirname}/../public/`));
 //-------
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-//--------------
+//-------------- ------------//
 
-//--------Routes JSON ---//
+//--------Routes JSON ------//
 // app.use("/api/products", productsRouter);
 // app.use("/api/carts", cartsRouter);
+
+// ---------Mongo session middleware---------//
+app.use(sessionMiddleware);
+
 //-----  MongoDB-Mongoose -------//
 // app.use("/api/products", productsDBRouter);
 app.use("/api/products", prodDBRouter);
 app.use("/api/carts", cartsDBRouter);
+app.use("/api/users", userDBRouter);
+app.use("/api/session", sessionDBRouter);
+
 //--------------------------------------------//
 //------- Routes for handlebars: ----//
 //------- With Mongo  - Atlas -------//
 app.use("/", viewsRouter);
 app.use("/carts", viewsCartsRouter);
+
 //--------With FS-----------//
 app.use("/home", homeRouter);
 app.use("/realTimeProducts", realTimeProducts);
 
 // ----- MongoDB Config------ //
 const main = async () => {
-  await mongoose.connect(
-    "mongodb+srv://alejandro0887:alejandro0887@coderecommerce.wk8owgr.mongodb.net/?retryWrites=true&w=majority&appName=CoderEcommerce",
-    {
-      dbName: "TestEcommerce",
-    }
-  );
+  await mongoose.connect(mongoUrl, { dbName });
 
   const productManager = new DbProductManager();
   await productManager.prepare();
   app.set("productManager", productManager);
+  //----------------------------//
+
+  const userManager = new DbUserManager();
+  await userManager.prepare();
+  app.set("userManager", userManager);
 
   //----------------------------//
 
@@ -67,15 +80,15 @@ const main = async () => {
     console.log("Server app.js up & running");
   });
 
-  //-----server websocket---------/
+  // //-----server websocket---------/
 
   const wsServer = new Server(httpServer);
   app.set("ws", wsServer);
 
-  //Cuando el cliente se conecta
-  wsServer.on("connection", (clientsocket) => {
-    console.log(`Cliente conectado, ID: ${clientsocket.id}`);
-  });
+  // //Cuando el cliente se conecta
+  // wsServer.on("connection", (clientsocket) => {
+  //   console.log(`Cliente conectado, ID: ${clientsocket.id}`);
+  // });
 };
 
 main();

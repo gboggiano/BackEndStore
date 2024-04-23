@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const ProductModel = require("../models/products.model");
 const productManager = require("../dao/dbManagers/productManager");
+const User = require("../models/user.model");
 
 const router = Router();
 
@@ -54,6 +55,70 @@ router.get("/products/deta/:id", async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
+});
+
+/// --- users -----//
+
+router.get("/users", async (req, res) => {
+  const userManager = req.app.get("userManager");
+  const users = await userManager.getAll();
+  console.log(users);
+  res.render("index", {
+    title: "Users Manager",
+    users,
+    scripts: ["index.js"],
+  });
+});
+
+router.get("/users/create", async (req, res) => {
+  res.render("create-user", {
+    title: "Crear usuario",
+    scripts: ["create-user.js"],
+  });
+});
+
+// ---- sessions -------//
+
+router.get("/", (req, res) => {
+  const isLoggedIn = ![null, undefined].includes(req.session.user);
+
+  res.render("index", {
+    title: "Home",
+    isLoggedIn,
+    isNotLoggedIn: !isLoggedIn,
+  });
+});
+
+router.get("/login", (_, res) => {
+  // TODO: agregar middleware, sólo se puede acceder si no está logueado
+  res.render("login", {
+    title: "Login",
+  });
+});
+
+router.get("/register", (_, res) => {
+  // TODO: agregar middleware, sólo se puede acceder si no está logueado
+  res.render("register", {
+    title: "Register",
+  });
+});
+
+router.get("/profile", async (req, res) => {
+  // TODO: agregar middleware, sólo se puede acceder si está logueado
+
+  const idFromSession = req.session.user._id;
+
+  const user = await User.findOne({ _id: idFromSession });
+
+  res.render("profile", {
+    title: "My profile",
+    user: {
+      name: user.name,
+      lastName: user.lastName,
+      age: user.age,
+      email: user.email,
+    },
+  });
 });
 
 module.exports = router;

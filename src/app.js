@@ -23,7 +23,13 @@ const userDBRouter = require("./routes/users.router");
 const { dbName, mongoUrl } = require("./dbConfig");
 const sessionMiddleware = require("./session/mongoStorage");
 const sessionDBRouter = require("./routes/session.router");
-
+// --- Passport
+const passport = require("passport");
+// --- passport Local
+// const initializeStrategy = require("./config/passport.config");
+// --- passport GitHub
+const initializeStrategy = require("./config/passport-github.config");
+//---------------
 //------handlebars
 app.engine("handlebars", handlebars.engine());
 app.set("views", `${__dirname}/views`);
@@ -42,6 +48,11 @@ app.use(express.json());
 
 // ---------Mongo session middleware---------//
 app.use(sessionMiddleware);
+// ------------- Passport -------------------//
+initializeStrategy();
+app.use(passport.initialize());
+app.use(passport.session());
+//---------------
 
 //-----  MongoDB-Mongoose -------//
 // app.use("/api/products", productsDBRouter);

@@ -23,12 +23,16 @@ const userDBRouter = require("./routes/users.router");
 const { dbName, mongoUrl } = require("./dbConfig");
 const sessionMiddleware = require("./session/mongoStorage");
 const sessionDBRouter = require("./routes/session.router");
+const loginRouter = require("./routes/login.router");
 // --- Passport
 const passport = require("passport");
+const cookieParser = require("cookie-parser");
 // --- passport Local
 // const initializeStrategy = require("./config/passport.config");
 // --- passport GitHub
-const initializeStrategy = require("./config/passport-github.config");
+// const initializeStrategy = require("./config/passport-github.config");
+// --- passport con JWT ---///
+const initializeStrategy = require("./config/passport-jw.config");
 //---------------
 //------handlebars
 app.engine("handlebars", handlebars.engine());
@@ -48,6 +52,8 @@ app.use(express.json());
 
 // ---------Mongo session middleware---------//
 app.use(sessionMiddleware);
+//----------cookie session ------//
+app.use(cookieParser());
 // ------------- Passport -------------------//
 initializeStrategy();
 app.use(passport.initialize());
@@ -60,6 +66,8 @@ app.use("/api/products", prodDBRouter);
 app.use("/api/carts", cartsDBRouter);
 app.use("/api/users", userDBRouter);
 app.use("/api/session", sessionDBRouter);
+//-----  Login - JW -------//
+app.use("/api/login", loginRouter);
 
 //--------------------------------------------//
 //------- Routes for handlebars: ----//

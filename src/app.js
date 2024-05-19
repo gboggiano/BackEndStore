@@ -1,5 +1,6 @@
 const ProductManager = require("./dao/fileManagers/deliveryIIMod");
 const express = require("express");
+const config = require("./config");
 const path = require("path");
 const productsRouter = require("./routes/products.router");
 const cartsRouter = require("./routes/carts.router");
@@ -34,6 +35,7 @@ const cookieParser = require("cookie-parser");
 // --- passport con JWT ---///
 const initializeStrategy = require("./config/passport-jw.config");
 //---------------
+
 //------handlebars
 app.engine("handlebars", handlebars.engine());
 app.set("views", `${__dirname}/views`);
@@ -80,6 +82,7 @@ app.use("/home", homeRouter);
 app.use("/realTimeProducts", realTimeProducts);
 
 // ----- MongoDB Config------ //
+
 const main = async () => {
   await mongoose.connect(mongoUrl, { dbName });
 
@@ -96,6 +99,7 @@ const main = async () => {
 
   //---------websocket ------------/
   const httpServer = app.listen(8080, () => {
+    console.log(config);
     console.log("Server app.js up & running");
   });
 

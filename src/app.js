@@ -84,7 +84,8 @@ app.use("/realTimeProducts", realTimeProducts);
 // ----- MongoDB Config------ //
 
 const main = async () => {
-  await mongoose.connect(mongoUrl, { dbName });
+  await mongoose.connect(config.mongoUrl, { dbName });
+  console.log(config.mongoUrl);
 
   const productManager = new DbProductManager();
   await productManager.prepare();
@@ -98,8 +99,7 @@ const main = async () => {
   //----------------------------//
 
   //---------websocket ------------/
-  const httpServer = app.listen(8080, () => {
-    console.log(config);
+  const httpServer = app.listen(config.port, () => {
     console.log("Server app.js up & running");
   });
 
